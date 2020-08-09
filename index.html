@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Light Bear</title>
+
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+		<link rel="stylesheet" href="./public/js/bundle.css">
+	</head>
+<body>
+	<div class="container">
+
+		<h1 class="my-4">Light Bear</h1>
+
+		<img src="https://friendlystock.com/wp-content/uploads/2019/10/7-fat-bear-cartoon-clipart.jpg" class="bear-logo">
+
+		<div class="row">
+
+			<div class="col-12">
+				<div id="login_container">
+					<div class="form-group">
+						<label for="user_name">User Name</label>
+						<input type="text" class="form-control" id="user_name">
+					</div>
+		
+					<div class="form-group">
+						<label for="user_key">Key</label>
+						<input type="password" class="form-control" id="user_key">
+						<small class="form-text text-muted">Never share your key with others.</small>
+					</div>
+
+					<button type="button" id="login_button" class="btn btn-primary">log in</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="bear_body_container">
+
+			<div class="spinner-border m-5" role="status">
+				<span class="sr-only">Loading...</span>
+			  </div>
+
+			<div class="spinner-inner d-none">
+				<div class="row">
+					<div class="col-12 col-md-6">
+						<div>
+				
+							<div class="form-group">
+								<label for="bear_weight">Weight</label>
+								<input type="text" class="form-control" id="bear_weight">
+							</div>
+				
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="bear_skip_breakfast">
+								<label class="form-check-label" for="bear_skip_breakfast">
+									  Skipped Breakfast
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="bear_skip_lunch">
+								<label class="form-check-label" for="bear_skop_lunch">
+									Skipped Lunch
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="bear_skip_dinner">
+								<label class="form-check-label" for="bear_skip_dinner">
+									Skipped Dinner
+								</label>
+							</div>
+	
+							<div class="form-group">
+								<label for="bear_note_breakfast">Breakfast Note</label>
+								<input type="text" class="form-control" id="bear_note_breakfast">
+							</div>
+							<div class="form-group">
+								<label for="bear_note_lunch">Lunch Note</label>
+								<input type="text" class="form-control" id="bear_note_lunch">
+							</div>
+							<div class="form-group">
+								<label for="bear_note_dinner">Dinner Note</label>
+								<input type="text" class="form-control" id="bear_note_dinner">
+							</div>
+	
+							<div class="form-group">
+								<label for="bear_calorie_breakfast">Breakfast Calorie</label>
+								<input type="text" class="form-control" id="bear_calorie_breakfast">
+							</div>
+							<div class="form-group">
+								<label for="bear_calorie_lunch">Lunch Calorie</label>
+								<input type="text" class="form-control" id="bear_calorie_lunch">
+							</div>
+							<div class="form-group">
+								<label for="bear_calorie_dinner">Dinner Calorie</label>
+								<input type="text" class="form-control" id="bear_calorie_dinner">
+							</div>
+	
+							<button id="bear_set_weight" class="btn btn-primary">Set Weight/Meal Data</button>
+							
+						</div>
+					</div>
+				</div>
+	
+				<div class="row">
+					<div class="col-12">
+						<div class="form-group">
+							<label for="bear_gift_name">Gift Name</label>
+							<input type="text" class="form-control" id="bear_gift_name">
+						</div>
+						<div class="form-group">
+							<label for="bear_gift_price">Gift Price</label>
+							<input type="number" class="form-control" id="bear_gift_price">
+						</div>
+						<div class="form-group">
+							<label for="bear_gift_note">Gift Note</label>
+							<input type="text" class="form-control" id="bear_gift_note">
+						</div>
+	
+						<button id="bear_set_gift" class="btn btn-primary">Set Gift Data</button>
+						<button id="bear_get_gift" class="btn btn-primary">Get Gift Data</button>
+
+						<table id="bear_gift_table" class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Name</th>
+									<th scope="col">Price</th>
+									<th scope="col">Notes</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+							<tbody id="bear_gift_tbody">
+							</tbody>
+						  </table>
+					</div>
+				</div>
+	
+				<div>
+					
+					<hr />
+					<h3>Weekly Weight Bar Chart</h3>
+					<canvas id="bear_weight_chart" width="400" height="400"></canvas>
+				</div>
+			</div>
+
+			
+		</div>
+
+	</div>
+	<script src="./public/js/bundle.js"></script>
+
+	<script>
+		window.light_bear_main_function('bear');
+	</script>
+</body>
+</html>
