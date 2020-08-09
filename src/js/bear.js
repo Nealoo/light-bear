@@ -2,7 +2,7 @@ import '../scss/home.scss';
 
 // import report from './report'
 
-import { getLoginStatus, setLoginStatus, clearLoginStatus, getUserInfo, setUserInfo} from './utils/tools';
+import { getLoginStatus, setLoginStatus, clearUserInfo, getUserInfo, setUserInfo} from './utils/tools';
 import $ from 'jquery';
 import Swal from 'sweetalert2';
 import Chart from 'chart.js';
@@ -19,7 +19,7 @@ export default function(){
     const apiURL = 'http://api.mrkpi.icu/'
 
     // setLoginStatus();
-    // clearLoginStatus();
+    // clearUserInfo();
 
     initLoginSection();
     initPageByData();
@@ -32,7 +32,7 @@ export default function(){
     bearLogoUpdate();
 
     $('#logout_button').on('click', function(){
-        clearLoginStatus();
+        clearUserInfo();
         initLoginSection();
         Swal.fire('Yeah~', 'Log out button worked!', 'success');
     });
@@ -95,7 +95,7 @@ export default function(){
                 initLoginSection();
             }else{
                 Swal.fire('Oops...', 'Login details are wrong', 'error');
-                clearLoginStatus();
+                clearUserInfo();
             }
         });
     }
@@ -141,7 +141,7 @@ export default function(){
 
             }else{
                 Swal.fire('Oops...', 'Login details are wrong', 'error');
-                clearLoginStatus();
+                clearUserInfo();
                 initLoginSection();
             }
         });
@@ -184,7 +184,7 @@ export default function(){
                 }else{
                     if(xhr.status == 401){
                         Swal.fire('Oops...', 'Login details are wrong', 'error');
-                        clearLoginStatus();
+                        clearUserInfo();
                         initLoginSection();
                     }else{
                         Swal.fire('Oops...', res, 'error');
@@ -228,7 +228,7 @@ export default function(){
                 }else{
                     if(xhr.status == 401){
                         Swal.fire('Oops...', 'Login details are wrong', 'error');
-                        clearLoginStatus();
+                        clearUserInfo();
                         initLoginSection();
                     }else{
                         Swal.fire('Oops...', res, 'error');
@@ -255,7 +255,7 @@ export default function(){
                 }else{
                     if(xhr.status == 401){
                         Swal.fire('Oops...', 'Login details are wrong', 'error');
-                        clearLoginStatus();
+                        clearUserInfo();
                         initLoginSection();
                     }else{
                         Swal.fire('Oops...', res, 'error');
@@ -298,7 +298,7 @@ export default function(){
                         }else{
                             if(xhr.status == 401){
                                 Swal.fire('Oops...', 'Login details are wrong', 'error');
-                                clearLoginStatus();
+                                clearUserInfo();
                                 initLoginSection();
                             }else{
                                 Swal.fire('Oops...', res, 'error');
