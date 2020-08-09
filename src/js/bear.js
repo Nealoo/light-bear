@@ -15,8 +15,8 @@ export default function(){
     const $loginContainer = $('#login_container');
     const $bodyContainer  = $('#bear_body_container');
 
-    const apiURL = 'http://127.0.0.1:5000/'
-    // const apiURL = 'http://api.mrkpi.icu/'
+    // const apiURL = 'http://127.0.0.1:5000/'
+    const apiURL = 'http://api.mrkpi.icu/'
 
     // setLoginStatus();
     // clearLoginStatus();
