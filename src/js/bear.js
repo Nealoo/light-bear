@@ -15,8 +15,8 @@ export default function(){
     const $loginContainer = $('#login_container');
     const $bodyContainer  = $('#bear_body_container');
 
-    // const apiURL = 'http://127.0.0.1:5000/'
-    const apiURL = 'http://api.mrkpi.icu/'
+    const apiURL = 'http://127.0.0.1:5000/'
+    // const apiURL = 'http://api.mrkpi.icu/'
 
     // setLoginStatus();
     // clearLoginStatus();
@@ -29,7 +29,11 @@ export default function(){
     bindSetGift();
     bindGiftDeleteAction();
 
-    bearLogoUpdate()
+    bearLogoUpdate();
+
+    $('#logout_button').on('click', function(){
+        clearLoginStatus();
+    });
 
     function bearLogoUpdate(){
         const imageList = [
@@ -102,26 +106,36 @@ export default function(){
             data: getUserInfo()
         }).done(function( res, textStatus, xhr ) {
             if( res ){
-                console.log(res);
 
-                $('#bear_body_container .spinner-inner').removeClass('d-none');
-                $('.spinner-border').remove();
+                if(xhr.status == 200){
 
-                $('#bear_weight').val(res.response.currentWeight);
+                    $('#bear_body_container .spinner-inner').removeClass('d-none');
+                    $('.spinner-border').remove();
 
-                $('#bear_skip_breakfast').prop('checked', res.response.currentMeal[0]=='true');
-                $('#bear_skip_lunch').prop('checked', res.response.currentMeal[1]=='true');
-                $('#bear_skip_dinner').prop('checked', res.response.currentMeal[2]=='true');
+                    $('#bear_weight').val(res.response.currentWeight);
 
-                $('#bear_note_breakfast').val(res.response.currentNote[0]);
-                $('#bear_note_lunch').val(res.response.currentNote[1]);
-                $('#bear_note_dinner').val(res.response.currentNote[2]);
-
-                $('#bear_calorie_breakfast').val(res.response.currentCalorie[0]);
-                $('#bear_calorie_lunch').val(res.response.currentCalorie[1]);
-                $('#bear_calorie_dinner').val(res.response.currentCalorie[2]);
-
-                initLineChart(Object.keys(res.response.weightRecord), Object.values(res.response.weightRecord));
+                    if(res.response.currentMeal){
+                        $('#bear_skip_breakfast').prop('checked', res.response.currentMeal[0]=='true');
+                        $('#bear_skip_lunch').prop('checked', res.response.currentMeal[1]=='true');
+                        $('#bear_skip_dinner').prop('checked', res.response.currentMeal[2]=='true');
+                    }
+                    
+                    if(res.response.currentNote){
+                        $('#bear_note_breakfast').val(res.response.currentNote[0]);
+                        $('#bear_note_lunch').val(res.response.currentNote[1]);
+                        $('#bear_note_dinner').val(res.response.currentNote[2]);
+                    }
+                    
+                    if(res.response.currentCalorie){
+                        $('#bear_calorie_breakfast').val(res.response.currentCalorie[0]);
+                        $('#bear_calorie_lunch').val(res.response.currentCalorie[1]);
+                        $('#bear_calorie_dinner').val(res.response.currentCalorie[2]);
+                    }
+                    initLineChart(Object.keys(res.response.weightRecord), Object.values(res.response.weightRecord));
+                }else{
+                    Swal.fire('Oops...', JSON.stringify(res), 'error');
+                }
+                
 
             }else{
                 Swal.fire('Oops...', 'Login details are wrong', 'error');
@@ -166,7 +180,7 @@ export default function(){
                     console.log(res);
                     Swal.fire('OK', res, 'success');
                 }else{
-                    if(xhr.statusCode == 401){
+                    if(xhr.status == 401){
                         Swal.fire('Oops...', 'Login details are wrong', 'error');
                         clearLoginStatus();
                         initLoginSection();
@@ -210,7 +224,7 @@ export default function(){
                     Swal.fire('OK', res, 'success');
                     $('#bear_get_gift').click();
                 }else{
-                    if(xhr.statusCode == 401){
+                    if(xhr.status == 401){
                         Swal.fire('Oops...', 'Login details are wrong', 'error');
                         clearLoginStatus();
                         initLoginSection();
@@ -237,7 +251,7 @@ export default function(){
 
                     $('#bear_gift_tbody').html(tableRowTemplate(res.response));
                 }else{
-                    if(xhr.statusCode == 401){
+                    if(xhr.status == 401){
                         Swal.fire('Oops...', 'Login details are wrong', 'error');
                         clearLoginStatus();
                         initLoginSection();
@@ -280,7 +294,7 @@ export default function(){
                                 'success'
                             )
                         }else{
-                            if(xhr.statusCode == 401){
+                            if(xhr.status == 401){
                                 Swal.fire('Oops...', 'Login details are wrong', 'error');
                                 clearLoginStatus();
                                 initLoginSection();
