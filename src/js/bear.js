@@ -33,6 +33,8 @@ export default function(){
 
     $('#logout_button').on('click', function(){
         clearLoginStatus();
+        initLoginSection();
+        Swal.fire('Yeah~', 'Log out button worked!', 'success');
     });
 
     function bearLogoUpdate(){
