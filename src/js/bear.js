@@ -116,6 +116,8 @@ export default function(){
 
                     $('#bear_weight').val(res.response.currentWeight);
 
+                    let mealTableData = {}
+
                     if(res.response.currentMeal){
                         $('#bear_skip_breakfast').prop('checked', res.response.currentMeal[0]=='true');
                         $('#bear_skip_lunch').prop('checked', res.response.currentMeal[1]=='true');
@@ -134,6 +136,18 @@ export default function(){
                         $('#bear_calorie_dinner').val(res.response.currentCalorie[2]);
                     }
                     initLineChart(Object.keys(res.response.weightRecord), Object.values(res.response.weightRecord));
+
+                    if(res.response.mealRecord){
+                        mealTableData.mealRecord = res.response.mealRecord;
+                    }
+                    if(res.response.calorieRecord){
+                        mealTableData.calorieRecord = res.response.calorieRecord;
+                    }
+                    if(res.response.mealNote){
+                        mealTableData.mealNote = res.response.mealNote;
+                    }
+
+                    $('#bear_meal_tbody').html(tableMealTemplate(mealTableData));
                 }else{
                     Swal.fire('Oops...', JSON.stringify(res), 'error');
                 }
@@ -221,9 +235,9 @@ export default function(){
                 url: apiURL + 'bear-gift/',
                 data: Object.assign(requestData, getUserInfo())
             }).done(function( res, textStatus, xhr ) {
-                if( res ){
+                if( xhr.status == 200 ){
                     console.log(res);
-                    Swal.fire('OK', res, 'success');
+                    Swal.fire('OK', JSON.stringify(res), 'success');
                     $('#bear_get_gift').click();
                 }else{
                     if(xhr.status == 401){
@@ -231,7 +245,7 @@ export default function(){
                         clearUserInfo();
                         initLoginSection();
                     }else{
-                        Swal.fire('Oops...', res, 'error');
+                        Swal.fire('Oops...', JSON.stringify(res), 'error');
                     }
                     
                 }
@@ -248,7 +262,7 @@ export default function(){
                 url: apiURL + 'bear-gift/',
                 data: getUserInfo()
             }).done(function( res, textStatus, xhr ) {
-                if( res ){
+                if( xhr.status == 200 ){
                     console.log(res);
 
                     $('#bear_gift_tbody').html(tableRowTemplate(res.response));
@@ -258,7 +272,7 @@ export default function(){
                         clearUserInfo();
                         initLoginSection();
                     }else{
-                        Swal.fire('Oops...', res, 'error');
+                        Swal.fire('Oops...', JSON.stringify(res), 'error');
                     }
                     
                 }
@@ -288,7 +302,7 @@ export default function(){
                         url: apiURL + 'bear-gift/',
                         data: Object.assign(getUserInfo(), {'uuid': $(e.target).data('id')})
                     }).done(function( res, textStatus, xhr ) {
-                        if( res ){
+                        if( xhr.status == 200 ){
                             $(e.target).parent().remove();
                             Swal.fire(
                                 'Deleted!',
@@ -301,7 +315,7 @@ export default function(){
                                 clearUserInfo();
                                 initLoginSection();
                             }else{
-                                Swal.fire('Oops...', res, 'error');
+                                Swal.fire('Oops...', JSON.stringify(res), 'error');
                             }
                             
                         }
@@ -321,11 +335,26 @@ export default function(){
                 const giftNote  = data[id].note || '';
                 return `
                     <tr>
-                        <th>${index+1}</th>
-                        <th>${giftName}</th>
+                        <td>${index+1}</td>
+                        <td>${giftName}</td>
                         <td>${giftPrice}</td>
                         <td>${giftNote}</td>
                         <td class="gift-delete-action" data-id=${id}>delete</td>
+                    </tr> 
+                `
+            }).join('')}
+        `
+    }
+
+    function tableMealTemplate(data){
+        return `
+            ${Object.keys(data.mealRecord).map((date, index)=>{
+                return `
+                    <tr>
+                        <td>${date}</td>
+                        <td>${data.mealRecord[date][0] == 'true'?'skipped':(data.mealNote[date][0] || 'no record')+'('+(data.calorieRecord[date][0] || 0)+')'}</td>
+                        <td>${data.mealRecord[date][1] == 'true'?'skipped':(data.mealNote[date][1] || 'no record')+'('+(data.calorieRecord[date][1] || 0)+')'}</td>
+                        <td>${data.mealRecord[date][2] == 'true'?'skipped':(data.mealNote[date][2] || 'no record')+'('+(data.calorieRecord[date][2] || 0)+')'}</td>
                     </tr> 
                 `
             }).join('')}
@@ -339,7 +368,7 @@ export default function(){
             data:{
                 
                 datasets:[{
-                    label: 'test',
+                    label: 'weight',
                     data: weights,
                     borderColor: 'rgba(255, 99, 132, 1)',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)'
